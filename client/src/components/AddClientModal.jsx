@@ -25,7 +25,7 @@ export const AddClientModal = () => {
     e.preventDefault();
 
     if (name === "" || email === "" || phone === "") {
-      alert("Please fill in all fields");
+      return alert("Please fill in all fields");
     }
 
     addClient(name, email, phone);
@@ -73,17 +73,18 @@ export const AddClientModal = () => {
                   <label htmlFor="name" className="form-label">
                     Name
                     <input
-                      type="text"
                       id="name"
                       className="form-control"
+                      value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
                   </label>
                   <label htmlFor="email" className="form-label">
                     Email
                     <input
-                      type="text"
+                      type="email"
                       id="email"
+                      value={email}
                       className="form-control"
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -91,8 +92,8 @@ export const AddClientModal = () => {
                   <label htmlFor="phone" className="form-label">
                     Phone
                     <input
-                      type="text"
                       id="phone"
+                      value={phone}
                       className="form-control"
                       onChange={(e) => setPhone(e.target.value)}
                     />
