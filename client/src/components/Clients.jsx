@@ -29,7 +29,7 @@ export const Clients = () => {
           <tr>
             <td colSpan={4}>
               <div className="d-flex justify-content-center py-5">
-                <h3>No Projects</h3>
+                <h3>No Clients</h3>
               </div>
             </td>
           </tr>
