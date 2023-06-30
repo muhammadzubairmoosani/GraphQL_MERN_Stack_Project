@@ -9,7 +9,7 @@ export const AddClientModal = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  const [addClient] = useMutation(ADD_CLIENT, {
+  const [addClient, { loading }] = useMutation(ADD_CLIENT, {
     variables: { name, email, phone },
     update(cache, { data: { addClient } }) {
       const { clients } = cache.readQuery({ query: GET_CLIENTS });
@@ -72,37 +72,42 @@ export const AddClientModal = () => {
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
                     Name
-                    <input
-                      id="name"
-                      className="form-control"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
                   </label>
+                  <input
+                    id="name"
+                    className="form-control"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
                   <label htmlFor="email" className="form-label">
                     Email
-                    <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      className="form-control"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
                   </label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    className="form-control"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
                   <label htmlFor="phone" className="form-label">
                     Phone
-                    <input
-                      id="phone"
-                      value={phone}
-                      className="form-control"
-                      onChange={(e) => setPhone(e.target.value)}
-                    />
                   </label>
+                  <input
+                    id="phone"
+                    value={phone}
+                    className="form-control"
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
                 </div>
                 <button
                   type="submit"
                   data-bs-dismiss="modal"
                   className="btn btn-secondary"
+                  disabled={loading}
                 >
                   Submit
                 </button>

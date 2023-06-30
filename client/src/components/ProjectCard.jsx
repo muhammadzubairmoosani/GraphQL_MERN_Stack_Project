@@ -2,7 +2,7 @@ import React from "react";
 
 export const ProjectCard = ({ project }) => {
   return (
-    <div className="col-sm-6 col-md-4">
+    <div className="col-md-6">
       <div className="card mb-3">
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center">

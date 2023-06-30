@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
-import { ClientRow } from "./ClientRow";
+import React from "react";
 import { GET_CLIENTS } from "../graphQL/queries";
+import { ClientRow } from "./ClientRow";
 import { Spinner } from "./Spinner";
 export const Clients = () => {
   const { loading, error, data } = useQuery(GET_CLIENTS);
@@ -19,9 +19,21 @@ export const Clients = () => {
         </tr>
       </thead>
       <tbody>
-        {data.clients.map((client) => (
-          <ClientRow key={client.id} client={client} />
-        ))}
+        {data.clients.length ? (
+          <>
+            {data.clients.map((client) => (
+              <ClientRow key={client.id} client={client} />
+            ))}
+          </>
+        ) : (
+          <tr>
+            <td colSpan={4}>
+              <div className="d-flex justify-content-center py-5">
+                <h3>No Projects</h3>
+              </div>
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );

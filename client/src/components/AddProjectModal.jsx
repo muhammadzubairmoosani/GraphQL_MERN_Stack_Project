@@ -11,17 +11,20 @@ export const AddProjectModal = () => {
   const [status, setStatus] = useState("new");
   const [clientId, setClientId] = useState("");
 
-  const [addProject] = useMutation(ADD_PROJECT, {
-    variables: { name, description, clientId, status },
-    update(cache, { data: { addProject } }) {
-      const { projects } = cache.readQuery({ query: GET_PROJECTS });
+  const [addProject, { loading: addProjectloading }] = useMutation(
+    ADD_PROJECT,
+    {
+      variables: { name, description, clientId, status },
+      update(cache, { data: { addProject } }) {
+        const { projects } = cache.readQuery({ query: GET_PROJECTS });
 
-      cache.writeQuery({
-        query: GET_PROJECTS,
-        data: { projects: [...projects, addProject] },
-      });
-    },
-  });
+        cache.writeQuery({
+          query: GET_PROJECTS,
+          data: { projects: [...projects, addProject] },
+        });
+      },
+    }
+  );
 
   const { loading, error, data } = useQuery(GET_CLIENTS);
 
@@ -31,9 +34,7 @@ export const AddProjectModal = () => {
       return alert("Please fill in all fields");
     }
 
-    console.log({ name, description, status, clientId });
     addProject(name, description, clientId, status);
-
     setName("");
     setDescription("");
     setStatus("new");
@@ -52,6 +53,7 @@ export const AddProjectModal = () => {
             className="btn btn-primary"
             data-bs-toggle="modal"
             data-bs-target="#addProjectModal"
+            disabled={!data.clients.length}
           >
             <div className="d-flex align-items-center">
               <FaUser className="icon" />
@@ -76,30 +78,34 @@ export const AddProjectModal = () => {
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                  ></button>
+                  />
                 </div>
                 <div className="modal-body">
                   <form onSubmit={onSubmit}>
                     <div className="mb-3">
                       <label htmlFor="name" className="form-label">
                         Name
-                        <input
-                          id="name"
-                          value={name}
-                          className="form-control"
-                          onChange={(e) => setName(e.target.value)}
-                        />
                       </label>
+                      <input
+                        id="name"
+                        value={name}
+                        className="form-control"
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="mb-3">
                       <label htmlFor="description" className="form-label">
                         Description
-                        <textarea
-                          id="description"
-                          value={description}
-                          className="form-control"
-                          onChange={(e) => setDescription(e.target.value)}
-                        />
                       </label>
-
+                      <textarea
+                        id="description"
+                        value={description}
+                        className="form-control"
+                        onChange={(e) => setDescription(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
                       <label htmlFor="status" className="form-label">
                         Status
                       </label>
@@ -113,7 +119,8 @@ export const AddProjectModal = () => {
                         <option value="progress">In Progress </option>
                         <option value="completed">Completed</option>
                       </select>
-
+                    </div>
+                    <div className="mb-3">
                       <label htmlFor="client" className="form-label">
                         Client
                       </label>
@@ -123,6 +130,7 @@ export const AddProjectModal = () => {
                         value={clientId}
                         onChange={(e) => setClientId(e.target.value)}
                       >
+                        <option>Select</option>
                         {data.clients.map((client) => (
                           <option key={client.id} value={client.id}>
                             {client.name}
@@ -134,6 +142,7 @@ export const AddProjectModal = () => {
                       type="submit"
                       data-bs-dismiss="modal"
                       className="btn btn-primary"
+                      disabled={addProjectloading}
                     >
                       Submit
                     </button>

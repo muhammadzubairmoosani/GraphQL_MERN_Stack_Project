@@ -3,6 +3,8 @@ import { Spinner } from "../components/Spinner";
 import { useQuery } from "@apollo/client";
 import { GET_PROJECT } from "../graphQL/queries";
 import { ClientInfo } from "../components/ClientInfo";
+import { DeleteProjectButton } from "../components/DeleteProjectButton";
+import { EditProjectButton } from "../components/EditProjectButton";
 
 export const Project = () => {
   const { id } = useParams();
@@ -12,8 +14,6 @@ export const Project = () => {
 
   if (loading) return <Spinner />;
   if (error) return <p>Something Went Wrong!</p>;
-
-  console.log(data?.project);
 
   return (
     <>
@@ -30,6 +30,10 @@ export const Project = () => {
           <p className="lead">{data.project.status}</p>
 
           <ClientInfo client={data.project.client} />
+
+          <EditProjectButton project={data.project} />
+
+          <DeleteProjectButton projectId={data.project.id} />
         </div>
       )}
     </>
