@@ -21,8 +21,10 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
+app.get("/test", (req, res) => {
   res.send("Hey this NodeJS server is running 🥳");
 });
 
 app.listen(port, console.log("Server on running port on: " + port));
+
+export default app;
