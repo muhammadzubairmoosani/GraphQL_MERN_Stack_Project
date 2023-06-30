@@ -21,4 +21,8 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => {
+  res.send("Hey this NodeJS server is running 🥳");
+});
+
 app.listen(port, console.log("Server on running port on: " + port));
